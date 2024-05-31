@@ -15,7 +15,7 @@ class Project extends Model
         $slug = Str::slug($title, '-');
         $count = 1;
         while(Project::where('slug', $slug)->first()){
-            $slug = Str::slug($title. '-' . $count, '-');
+            $slug = Str::of($title)->slug('-') .  "-{$count}";
             $count++;
         }
         return $slug;
