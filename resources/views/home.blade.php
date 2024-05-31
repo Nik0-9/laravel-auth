@@ -13,6 +13,7 @@
         <h1 class="display-5 fw-bold">
             Welcome to Laravel+Bootstrap <i class="bi bi-box"></i>
         </h1>
+        <h2>home</h2>
 
         <p class="col-md-8 fs-4">
             This is a preset package with Bootstrap 5 views for laravel projects including laravel breeze/blade. It works from laravel 9.x to the latest release 11.x.
