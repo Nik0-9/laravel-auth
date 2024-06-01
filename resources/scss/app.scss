@@ -21,16 +21,10 @@ $fa-font-path: "../webfonts" !default;
         overflow-y: auto;
 
         header {
-            min-height: 60px;
-            position: fixed;
-            width: calc(100% - 19vw);
+            min-height: 80px;
             .img-profile {
                 height: 2rem;
             }
         }
-        main{
-            margin-top: 80px;
-        }
     }
-
 }

@@ -25,7 +25,7 @@
             @include('admin.partials.sidebar')
             <div id="wrapper">
                 @include('admin.partials.header')
-                <main class="container-fluid">
+                <main class="container">
                     @yield('content')
                 </main>
             </div>
