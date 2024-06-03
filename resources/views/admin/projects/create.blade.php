@@ -12,7 +12,7 @@
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
                     value="{{ old('title') }}" minlength="3" maxlength="200" required>
                 @error('title')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="alert alert-danger  mt-2">{{ $message }}</div>
                 @enderror
                 <div id="titleHelp" class="form-text text-white">Inserire minimo 3 caratteri e massimo 200</div>
             </div>
@@ -21,16 +21,16 @@
                 <input type="url" class="form-control @error('image') is-invalid @enderror" id="image"
                     name="image" value="{{ old('image') }}" maxlength="255">
                 @error('image')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
                 <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" required>
                 {{ old('content') }}
-              </textarea>
+            </textarea>
                 @error('content')
-                    <div class="alert alert-danger">{{ $message }}</div>
+                <div class="alert alert-danger mt-2">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">

@@ -44,7 +44,7 @@
           @csrf
           @method('DELETE')
           <button type="submit" class="btn fs-6 p-0">
-          <i class="fa-solid fa-trash"></i>
+          <i class="fa-solid fa-trash" style="color: #0A58CA;"></i>
           </button>
 
         </form>

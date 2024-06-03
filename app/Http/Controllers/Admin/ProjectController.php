@@ -30,10 +30,19 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:200|min:3',
+            'image'=> 'url|nullable|max:255',
+            'content'=>'required|'
+        ]);
         $form_data = $request->all();
         $form_data['slug'] = Project::generateSlug($form_data['title']);
+        if(Project::where('slug',$form_data['slug'])){
+            $form_data['title'] = Project::generateTitleUnique($form_data['title']);
+            $form_data['slug'] = Project::generateSlug($form_data['title']);
+        }
         $newProject = Project::create($form_data);
-        return redirect()->route('admin.projects.show', $newProject->slug);
+        return redirect()->route('admin.projects.show', $newProject->slug)->with('message', $form_data['title'] . ' è stato creato');
 
     }
 
@@ -58,12 +67,17 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {   
+        $request->validate([
+            'title' => 'required|max:200|min:3',
+            'image'=> 'url|nullable|max:255',
+            'content'=>'required|'
+        ]);
         $form_data = $request->all();
         if ($project->title !== $form_data['title']) {
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
         $project->update($form_data);
-        return redirect()->route('admin.projects.show', compact('project'));
+        return redirect()->route('admin.projects.show', compact('project'))->with('message', $project->title . ' è stato editato');
     }
 
     /**
