@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Validator; //Illuminate\Suppor\Facades\Validator
 
 class ProjectController extends Controller
 {
@@ -30,12 +31,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|max:200|min:3',
-            'image'=> 'url|nullable|max:255',
-            'content'=>'required|'
-        ]);
-        $form_data = $request->all();
+        
+        // $form_data = $request->all();
+        $form_data = $this->validation($request->all());
         $form_data['slug'] = Project::generateSlug($form_data['title']);
         if(Project::where('slug',$form_data['slug'])){
             $form_data['title'] = Project::generateTitleUnique($form_data['title']);
@@ -67,12 +65,8 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {   
-        $request->validate([
-            'title' => 'required|max:200|min:3',
-            'image'=> 'url|nullable|max:255',
-            'content'=>'required|'
-        ]);
-        $form_data = $request->all();
+        // $form_data = $request->all();
+        $form_data = $this->validation($request->all());
         if ($project->title !== $form_data['title']) {
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
@@ -87,5 +81,22 @@ class ProjectController extends Controller
     {
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', $project->title . ' è stato eliminato');
+    }
+
+
+    public function validation($data){
+        $validator = Validator::make($data,
+        [
+            'title' => 'required|max:200|min:3',
+            'image'=> 'url|nullable|max:255',
+            'content'=>'required|'
+        ],[
+            'title.required' => 'Campo obbligatorio',
+            'title.max' => 'Il titolo deve avere :max caratteri',
+            'title.min' => 'Il titolo deve avere :min caratteri',
+            'image.max' => 'L\'immagine deve contenere :max caratteri',
+            'content.required' => 'Campo obbligatorio'
+        ])->validate();
+        return $validator;
     }
 }

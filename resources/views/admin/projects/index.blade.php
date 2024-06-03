@@ -43,7 +43,7 @@
         <form action="{{route('admin.projects.destroy', $project->slug)}}" method="POST">
           @csrf
           @method('DELETE')
-          <button type="submit" class="btn fs-6 p-0">
+          <button type="submit" class="delete-button btn fs-6 p-0" data-item-title="{{$project->title}}">
           <i class="fa-solid fa-trash" style="color: #0A58CA;"></i>
           </button>
 
@@ -58,4 +58,5 @@
     </tbody>
   </table>
 </section>
+@include('admin.partials.modal-delete')
 @endsection
