@@ -2,7 +2,7 @@
   <a href="/" class="nav-link text-white">
       <div class="d-flex align-items-center p-2">
       <i class="fa-solid fa-square-rss fs-1 me-1"></i>
-      <h2>MyProjectsDB</h2>
+      <h2>MyProjects</h2>
     </div>
     </a>
     

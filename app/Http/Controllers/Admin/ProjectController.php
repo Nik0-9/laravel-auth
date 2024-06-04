@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Validator; //Illuminate\Suppor\Facades\Validator
 
 class ProjectController extends Controller
@@ -39,6 +40,10 @@ class ProjectController extends Controller
             $form_data['title'] = Project::generateTitleUnique($form_data['title']);
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
+        if($request->hasFile('image')){
+            $path = Storage::put('project_images',$request->image);
+            $form_data['image'] = $path;
+        }
         $newProject = Project::create($form_data);
         return redirect()->route('admin.projects.show', $newProject->slug)->with('message', $form_data['title'] . ' è stato creato');
 
@@ -68,7 +73,15 @@ class ProjectController extends Controller
         // $form_data = $request->all();
         $form_data = $this->validation($request->all());
         if ($project->title !== $form_data['title']) {
+            $form_data['title'] = Project::generateTitleUnique($form_data['title']);
             $form_data['slug'] = Project::generateSlug($form_data['title']);
+        }
+        if($request->hasFile('image')){
+            if($project->image){
+                Storage::delete($project->image);
+            }
+            $path = Storage::put('project_images',$request->image);
+            $form_data['image'] = $path;
         }
         $project->update($form_data);
         return redirect()->route('admin.projects.show', compact('project'))->with('message', $project->title . ' è stato editato');
@@ -79,6 +92,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if($project->image){
+            Storage::delete($project->image);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', $project->title . ' è stato eliminato');
     }
@@ -87,8 +103,8 @@ class ProjectController extends Controller
     public function validation($data){
         $validator = Validator::make($data,
         [
-            'title' => 'required|max:200|min:3',
-            'image'=> 'url|nullable|max:255',
+            'title' => 'required|max:200|min:3|unique:projects',
+            'image'=> 'nullable|max:255|image',
             'content'=>'required|'
         ],[
             'title.required' => 'Campo obbligatorio',

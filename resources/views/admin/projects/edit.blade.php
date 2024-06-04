@@ -5,7 +5,7 @@
 @section('content')
 <section>
     <h2>Edit projects</h2>
-    <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST">
+    <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -19,8 +19,12 @@
         </div>
 
         <div class="mb-3">
+            <!-- nuova riga -->
+            <div class="media me-4">
+                <img src="{{asset('storage/'.$project->image)}}" alt="" id="upload_preview">
+            </div>
             <label for="image" class="form-label">Image</label>
-            <input type="url" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="upload_image" name="image"
                 value="{{$project->image}}" maxlength="255">
             @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>

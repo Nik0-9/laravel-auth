@@ -9,6 +9,6 @@
     <h1>{{$project->title}}</h1>
 
     <p>{{$project->content}}</p>
-    <img src="{{$project->image}}" alt="{{$project->title}}">
+    <img src="{{asset('storage/'.$project->image)}}" alt="{{$project->title}}">
 </section>
 @endsection

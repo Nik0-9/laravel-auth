@@ -64,3 +64,10 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+#In config/filestystems.php 
+#Caricheremo i nostri file nella cartella storage/app/public
+# modifichiamo quindi e volendo anche env file modifica chiave FILESYSTEM_DRIVER=public
+'default' => env('FILESYSTEM_DRIVER', 'public'),
+#lanciare comando
+php artisan storage:link

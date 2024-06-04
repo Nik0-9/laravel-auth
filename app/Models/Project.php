@@ -13,10 +13,7 @@ class Project extends Model
     public static function generateSlug($title)
     {
         $slug = Str::slug($title, '-');
-        // while(Project::where('slug', $slug)->first()){
-        //     $slug = Str::of($title)->slug('-') . "-{$count}";
-        //     $count++;
-        // }
+        
         return $slug;
     }
     public static function generateTitleUnique($title)
