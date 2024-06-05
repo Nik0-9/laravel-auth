@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator; //Illuminate\Suppor\Facades\Validator
+use Illuminate\Validation\Rule;
+
 
 class ProjectController extends Controller
 {
@@ -37,7 +40,6 @@ class ProjectController extends Controller
         $form_data = $this->validation($request->all());
         $form_data['slug'] = Project::generateSlug($form_data['title']);
         if(Project::where('slug',$form_data['slug'])){
-            $form_data['title'] = Project::generateTitleUnique($form_data['title']);
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
         if($request->hasFile('image')){
@@ -73,7 +75,6 @@ class ProjectController extends Controller
         // $form_data = $request->all();
         $form_data = $this->validation($request->all());
         if ($project->title !== $form_data['title']) {
-            $form_data['title'] = Project::generateTitleUnique($form_data['title']);
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
         if($request->hasFile('image')){
@@ -101,13 +102,19 @@ class ProjectController extends Controller
 
 
     public function validation($data){
+        //dd($data);
         $validator = Validator::make($data,
         [
-            'title' => 'required|max:200|min:3|unique:projects',
+            'title' => ['required',
+            'max:200',
+            'min:3',
+            Rule::unique('projects')->ignore($data['']),
+        ],
             'image'=> 'nullable|max:255|image',
             'content'=>'required|'
         ],[
             'title.required' => 'Campo obbligatorio',
+            'title.unique' => 'Progetto già esistente',
             'title.max' => 'Il titolo deve avere :max caratteri',
             'title.min' => 'Il titolo deve avere :min caratteri',
             'image.max' => 'L\'immagine deve contenere :max caratteri',

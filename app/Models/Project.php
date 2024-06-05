@@ -16,13 +16,5 @@ class Project extends Model
         
         return $slug;
     }
-    public static function generateTitleUnique($title)
-    {
-        $count = 2;
-        while(Project::where('title', $title)->first()){
-            $title = $title."-".$count;
-            $count++;
-        }
-        return $title;
-    }
+    
 }
