@@ -21,10 +21,10 @@
         <div class="mb-3">
             <!-- nuova riga -->
             <div class="media me-4">
-                <img src="{{asset('storage/'.$project->image)}}" alt="" id="upload_preview">
+                <img src="{{asset('storage/'.$project->image)}}" id="upload_preview" class="w-50 mb-3">
             </div>
             <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control @error('image') is-invalid @enderror" id="upload_image" name="image"
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
                 value="{{$project->image}}" maxlength="255">
             @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>
